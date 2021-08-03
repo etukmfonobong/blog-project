@@ -13,18 +13,19 @@ function useCloseDropdownIfUserClicksOutside(
   menuRef: React.MutableRefObject<HTMLDivElement>,
   setMenuIsShowing: (value: ((prevState: boolean) => boolean) | boolean) => void
 ) {
+  console.log('ref: ', menuRef)
   useEffect(() => {
     const checkIfClickedOutside = (e) => {
       // If the menu is open and the clicked target is not within the menu,
       // then close the menu
-      if (menuIsShowing && menuRef.current && !menuRef.current.contains(e.target)) {
+      if (menuIsShowing && !menuRef.current.contains(e.target)) {
         setMenuIsShowing(false)
       }
     }
-    document.addEventListener('mousedown', checkIfClickedOutside)
+    document.addEventListener('click', checkIfClickedOutside)
     return () => {
       // Cleanup the event listener
-      document.removeEventListener('mousedown', checkIfClickedOutside)
+      document.removeEventListener('click', checkIfClickedOutside)
     }
   }, [menuIsShowing])
 }
@@ -41,18 +42,18 @@ export default function Navbar(): JSX.Element {
     <div className='py-4 bg-white font-nunito'>
       <div className='flex flex-row flex-nowrap justify-between items-center px-2 mx-auto max-w-[1400px]'>
         <Logo />
-        {user && (
+        {!user && (
           <div>
-            <button className={styles.button}>Login</button>
-            <button className={`${styles.button} ml-3`}>Sign Up</button>
+            <button className={`${styles.button} ${styles.buttonHover}`}>Login</button>
+            <button className={`${styles.button} ${styles.buttonHover} ml-3`}>Sign Up</button>
           </div>
         )}
-        {!user && (
-          <button
-            type='button'
+        {user && (
+          <div
             className='relative h-[35px] w-[35px] rounded-full cursor-pointer focus:outline-none  focus:hover:ring-4 ring-indigo-300'
             onClick={() => setMenuIsShowing(!menuIsShowing)}>
             <Image src={profilePic} />
+
             <Transition
               show={menuIsShowing}
               enter='transform transition ease-out duration-100'
@@ -65,7 +66,7 @@ export default function Navbar(): JSX.Element {
                 <MainMenu />
               </div>
             </Transition>
-          </button>
+          </div>
         )}
       </div>
     </div>
