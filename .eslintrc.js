@@ -41,6 +41,8 @@ module.exports = {
     'plugin:prettier/recommended' // Make this the last element so prettier config overrides other formatting rules
   ],
   rules: {
+    'jsx-a11y/no-static-element-interactions': 'off',
+    'jsx-a11y/click-events-have-key-events': 'off',
     'react/react-in-jsx-scope': 'off',
     'react/jsx-filename-extension': [
       1,
