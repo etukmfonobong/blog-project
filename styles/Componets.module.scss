@@ -10,6 +10,10 @@
   @apply hover:text-white hover:bg-primary
 }
 
+.iconStyle{
+  @apply h-4 w-4 text-primary mr-1 stroke-current stroke-2
+}
+
 .pageBody{
   @apply bg-red-600
 }
